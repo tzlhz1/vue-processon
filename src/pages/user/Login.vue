@@ -23,7 +23,7 @@
 </template>
 
 <script>
-
+import api from "api";
 export default {
   name: "Login",
   data() {
@@ -32,6 +32,7 @@ export default {
         username: "",
         password: "",
       },
+      loading: false,
       rules: {
         username: [{ required: true, message: "请输入账号", trigger: "blur" }],
         password: [{ required: true, message: "请输入密码", trigger: "blur" }],
@@ -39,8 +40,13 @@ export default {
     };
   },
   methods: {
-    onSubmit() {
+    async onSubmit() {
       console.log("登录");
+      this.loading = false;
+      const { data } = await api.user.login(this.form);
+
+      this.loading = true;
+      console.log(data);
     },
   },
 };
